@@ -1,0 +1,7 @@
+tensorflow == 1.12
+pillow
+flask == 1.0.2
+watchdog
+simplejson
+python-dotenv
+flask-wtf

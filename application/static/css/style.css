@@ -1,0 +1,47 @@
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Thin), url("../webfonts/roboto/Roboto-Thin.eot");
+    src: url("../webfonts/roboto/Roboto-Thin.eot?#iefix") format("embedded-opentype"), url("../webfonts/roboto/Roboto-Thin.woff2") format("woff2"), url("../webfonts/roboto/Roboto-Thin.woff") format("woff"), url("../webfonts/roboto/Roboto-Thin.ttf") format("truetype");
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Light), url("../webfonts/roboto/Roboto-Light.eot");
+    src: url("../webfonts/roboto/Roboto-Light.eot?#iefix") format("embedded-opentype"), url("../webfonts/roboto/Roboto-Light.woff2") format("woff2"), url("../webfonts/roboto/Roboto-Light.woff") format("woff"), url("../webfonts/roboto/Roboto-Light.ttf") format("truetype");
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local(Roboto Regular), url("../webfonts/roboto/Roboto-Regular.eot");
+    src: url("../webfonts/roboto/Roboto-Regular.eot?#iefix") format("embedded-opentype"), url("../webfonts/roboto/Roboto-Regular.woff2") format("woff2"), url("../webfonts/roboto/Roboto-Regular.woff") format("woff"), url("../webfonts/roboto/Roboto-Regular.ttf") format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../webfonts/roboto/Roboto-Medium.eot");
+    src: url("../webfonts/roboto/Roboto-Medium.eot?#iefix") format("embedded-opentype"), url("../webfonts/roboto/Roboto-Medium.woff2") format("woff2"), url("../webfonts/roboto/Roboto-Medium.woff") format("woff"), url("../webfonts/roboto/Roboto-Medium.ttf") format("truetype");
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("../webfonts/roboto/Roboto-Bold.eot");
+    src: url("../webfonts/roboto/Roboto-Bold.eot?#iefix") format("embedded-opentype"), url("../webfonts/roboto/Roboto-Bold.woff2") format("woff2"), url("../webfonts/roboto/Roboto-Bold.woff") format("woff"), url("../webfonts/roboto/Roboto-Bold.ttf") format("truetype");
+    font-weight: 700;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    font-family: "Roboto", sans-serif;
+    font-weight: normal;
+    line-height: 1.5;
+}
+
+main {
+    flex: 1 0 auto;
+}

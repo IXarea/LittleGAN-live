@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    {% if title %}
+        <title>{{ title }} - LittleGAN Live</title>
+    {% else %}
+        <title>LittleGAN Live</title>
+    {% endif %}
+    <link rel="shortcut icon" type="images/png" href="{{ url_for('static', filename='logo.png') }}">
+    <link href="{{ url_for('static', filename='css/material-icons.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/fontawesome.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/materialize.min.css') }}" rel="stylesheet" media="screen,projection"/>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+
+</head>
+
+<body>
+
+
+<nav role="navigation">
+    <div class="nav-wrapper container">
+        <a href="{{ url_for('index') }}" class="brand-logo">
+            <i class="far fa-grin-wink fa-lg hide-on-small-only"></i>
+            LittleGAN Live
+        </a>
+        <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        <ul class="right hide-on-med-and-down">
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('discriminate') }}">Discriminate</a></li>
+            <li><a href="{{ url_for('generate_adjust') }}">Generate/Adjust</a></li>
+        </ul>
+    </div>
+</nav>
+
+<ul class="sidenav" id="mobile-demo">
+    <li><a href="{{ url_for('index') }}">Home</a></li>
+    <li><a href="{{ url_for('discriminate') }}">Discriminate</a></li>
+    <li><a href="{{ url_for('generate_adjust') }}">Generate/Adjust</a></li>
+</ul>
+
+<main>
+    <div class="container">
+        {% block main %}{% endblock %}
+    </div>
+</main>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col l6 s12">
+                <h5 class="white-text">LittleGAN Live</h5>
+                <p class="grey-text text-lighten-4">
+                    LittleGAN Live is an experience service for the machine learning project LittleGAN.
+                    You can try to generate facial image, adjust facial image and discriminate facial image attributes here.
+                </p>
+            </div>
+            <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Links</h5>
+                <ul>
+                    <li><a class="grey-text text-lighten-3" href="https://github.com/ixarea/littlegan">LittleGAN Source Code</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://github.com/ixarea/littlegan-paper">LittleGAN's Paper</a></li>
+                    <li><a class="grey-text text-lighten-3" href="https://github.com/ixarea/littlegan-live">Source Code of LittleGAN Live</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            © 2018 Copyright IXarea
+            <a class="grey-text text-lighten-4 right" href="https://github.com/ixarea">
+                <i class="fab fa-github fa-lg"></i> Connect on Github
+            </a>
+        </div>
+    </div>
+</footer>
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/fetch.umd.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        M.AutoInit();
+    });
+</script>
+</body>
+</html>
+
+
+
+

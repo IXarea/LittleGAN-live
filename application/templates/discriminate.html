@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <h1>Attributes Recognition</h1>
+
+    <form action="{{ url_for("api_discriminate") }}" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="file-field input-field">
+            <div class="btn waves-effect">
+                <span>Files</span>
+                {{ form.image() }}
+            </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+            </div>
+            <button class="btn waves-effect" name="action" id="">
+                Discriminate
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+
+
+    </form>
+
+
+
+
+{% endblock %}
