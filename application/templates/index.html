@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
 {% block main %}
-    <h1>Hey! Here is LittleGAN Live!</h1>
+    <h2>Hey! Here is LittleGAN Live!</h2>
+    <a href="{{ url_for('generate_adjust') }}" class="waves-effect waves-light btn">Goto Generate and Adjust</a>
+    <a href="{{ url_for('discriminate') }}" class="waves-effect waves-light btn">Goto Discriminate</a>
+
 {% endblock %}
