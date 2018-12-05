@@ -54,3 +54,11 @@ def data_rescale(x):
 
 def inverse_rescale(y):
     return tf.round(tf.multiply(tf.add(y, 1), 127.5))
+
+
+def cast_image_vec(image_string, image_h, image_w, image_c, ):
+    image = tf.image.decode_image(image_string, image_c)
+    image.set_shape([image_h, image_w, image_c])
+    image = tf.cast(image, tf.float32)
+    image = data_rescale(image)
+    return image

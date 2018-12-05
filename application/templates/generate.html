@@ -95,7 +95,7 @@
 
 
     <div class="row" id="card-list">
-        <div class="col s6 m4 l3 hide ix-card" id="ix-card-template">
+        <div class="col s4 m3 l2 hide ix-card" id="ix-card-template">
             <div class="card">
                 <div class="card-image">
                     <img class="materialboxed" src=""/>
@@ -109,6 +109,9 @@
             </div>
         </div>
     </div>
+
+{% endblock %}
+{% block js %}
     <script>
         let close_card = event => {
             for (let item in event.path) {
@@ -161,7 +164,8 @@
                     card.querySelector("p").textContent = "Attributes: " + data.attr.join(", ") + "  Seed: " + data.seed;
                     card.querySelector("a").addEventListener("click", close_card);
                     M.Materialbox.init(card.querySelector('img'));
-                    template.parentNode.appendChild(card);
+                    template.parentNode.insertBefore(card, template.parentNode.childNodes[0]);
+
                 }
             )
 

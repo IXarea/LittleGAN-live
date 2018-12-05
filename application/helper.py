@@ -1,9 +1,10 @@
 import numpy as np
 import tensorflow as tf
 from .littlegan.execute import generator, discriminator, args
-from .littlegan.utils import save_image
+from .littlegan.utils import save_image, data_rescale, cast_image_vec
 from os import path
 from application import app
+import uuid
 
 
 def get_hash(data):
@@ -51,15 +52,22 @@ def norm_input(data):
 def model_generate(data):
     file_name = "generate/%s.jpg" % get_hash(data)
     local_path = path.join(app.static_folder, file_name)
-    if not path.isfile(local_path):
+    #if not path.isfile(local_path):
 
-        attr = np.array(data['attr']).reshape([1, args.attr_dim]).astype(np.float32) / 100
+    attr = np.array(data['attr']).reshape([1, args.attr_dim]).astype(np.float32) / 100
 
-        noise = tf.random.normal([1, args.noise_dim], mean=0., stddev=1., seed=data['seed'])
-        if data['rate'] > 0:
-            rate = np.array(data['rate']).astype(np.float32) / 100
-            noise2 = tf.random.normal([1, args.noise_dim], mean=0., stddev=rate, seed=data['seed2'])
-            noise = noise - noise2
-        image_vec = generator([noise, attr])
-        save_image(image_vec, local_path)
+    noise=np.random.RandomState(data['seed']).normal(size=[1, args.noise_dim]).astype(np.float32)
+    if data['rate'] > 0:
+        rate = np.array(data['rate']).astype(np.float32) / 100
+        noise2=np.random.RandomState(data['seed2']).normal(scale=rate,size=[1, args.noise_dim]).astype(np.float32)
+        noise = noise - noise2
+    image_vec = generator([noise, attr])
+    save_image(image_vec, local_path)
     return file_name
+
+
+def model_discriminate(image):
+    image = cast_image_vec(image, args.image_dim, args.image_dim, args.image_channel)
+    image = tf.reshape(image, [1, args.image_dim, args.image_dim, args.image_channel])
+    pr, attr = discriminator(image)
+    return {"pr": pr[0][0].numpy().tolist(), "attr": attr[0].numpy().tolist()}

@@ -5,3 +5,5 @@ Thumbs.db
 .env
 data
 application/static/generate
+application/static/upload
+

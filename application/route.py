@@ -1,7 +1,9 @@
-from flask import make_response, jsonify, request, render_template, url_for
+from flask import jsonify, request, render_template, url_for
 from . import app
 from .form import UploadForm
-from .helper import norm_input, model_generate
+from .helper import norm_input, model_generate, model_discriminate
+from os import path
+import hashlib
 
 
 @app.route("/")
@@ -47,13 +49,17 @@ def api_generate():
     data = norm_input(data)
     filename = model_generate(data)
     data['status'] = True
-    data['image'] = url_for("static", filename=filename)
+    data['image'] = url_for("static", filename=filename,_external=True)
     return jsonify(data)
 
 
 @app.route("/api/discriminate", methods=['POST'])
 def api_discriminate():
-    f = request.files['image']
-    response = make_response(f.read())
-    response.headers['Content-Type'] = 'image/jpeg'
-    return response
+    image = request.files['image'].read()
+    filename = "upload/%s.jpg" % hashlib.sha3_224(image).hexdigest()
+    local_path = path.join(app.static_folder, filename)
+    with open(local_path, "wb") as f:
+        f.write(image)
+    result = model_discriminate(image)
+    result["image"] = url_for("static", filename=filename, _external=True)
+    return jsonify(result)

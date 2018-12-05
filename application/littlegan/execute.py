@@ -4,8 +4,6 @@ from .model import Adjuster, Discriminator, Decoder, Encoder, Generator
 from .. import app
 from flask import json
 
-tf.enable_eager_execution()
-
 
 class Arg:
 

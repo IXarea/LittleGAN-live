@@ -1,28 +1,152 @@
 {% extends "base.html" %}
 
 {% block main %}
-    <h1>Attributes Recognition</h1>
+<link href="{{ url_for('static', filename='css/cropper.min.css') }}" rel="stylesheet">
+<style>
+    #ix-image {
+            max-height: 50vh;
+        }
+    </style>
+<h1>Attributes Recognition</h1>
 
-    <form action="{{ url_for("api_discriminate") }}" method="post" enctype="multipart/form-data">
-        {{ form.hidden_tag() }}
-        <div class="file-field input-field">
-            <div class="btn waves-effect">
-                <span>Files</span>
-                {{ form.image() }}
-            </div>
-            <div class="file-path-wrapper">
-                <input class="file-path validate" type="text">
-            </div>
-            <button class="btn waves-effect" name="action" id="">
-                Discriminate
-                <i class="material-icons right">send</i>
-            </button>
+
+<div class="file-field input-field">
+    <div class="btn">
+      <span>File</span>
+      <input type="file" id="ix-upload">
+    </div>
+    <div class="file-path-wrapper">
+      <input class="file-path validate" type="text">
+    </div>
+  </div>
+<div id="ix-modal" class="modal">
+    <div class="modal-content">
+        <h4>Crop image</h4>
+        <div>
+            <img src="" id="ix-image" />
         </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-green btn-flat" id="ix-ok">Start</a>
+        <a href="#" class="modal-close waves-effect waves-green btn-flat" id="ix-cancle">Cancel</a>
+    </div>
+</div>
 
 
-    </form>
+<div class="row" id="card-list">
+    <div class="col s4 m3 l2 hide ix-card" id="ix-card-template">
+        <div class="card">
+            <div class="card-image">
+                <img class="materialboxed" src="" />
+                <!--<span class="card-title">Card Title</span>-->
+                <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">close</i></a>
+            </div>
+            <div class="card-content">
+                <p></p>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 
+{% endblock %}
+{% block js %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/cropper.min.js') }}"></script>
+<script>
+
+    document.querySelector("html").addEventListener("dragover", e => {
+        e.preventDefault();
+    }, false);
+    document.querySelector("html").addEventListener("drop", e => {
+        e.preventDefault();
+        let files = e.dataTransfer.files;
+        handleFiles(files);
+    }, false);
+
+    document.querySelector("input[type=file]").addEventListener("change", () => {
+        handleFiles(document.querySelector("input[type=file]").files);
+    });
+
+
+
+    const img = document.querySelector("#ix-image");
+    const cropper = new Cropper(img, {
+        aspectRatio: 1,
+        viewMode: 1,
+        crop(event) {
+        },
+    });
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            let file = files[0];
+            if (typeof FileReader !== 'undefined' && file.type.indexOf('image') !== -1) {
+                let reader = new FileReader();
+                reader.onload = function (evt) {
+                    load(evt.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    }
+
+    function load(src) {
+        let modal = M.Modal.getInstance(document.querySelector("#ix-modal"));
+        modal.open();
+        cropper.replace(src);
+    }
+
+    let close_card = event => {
+        for (let item in event.path) {
+            if (event.path[item].classList.contains("ix-card")) {
+                let card = event.path[item];
+                card.parentNode.removeChild(card);
+                break;
+            }
+        }
+
+
+    };
+
+    document.querySelector("#ix-ok").addEventListener("click", () => {
+        cropper.getCroppedCanvas({ width: 128, height: 128 }).toBlob((blob) => {
+            const formData = new FormData();
+
+            formData.append('image', blob);
+
+            fetch('{{ url_for("api_discriminate") }}', { method: "POST", body: formData }).then(
+                response => {
+                    if (response.ok) {
+                        return response.json()
+                    }
+                    M.toast({ html: "Error Occurred: " + response.statusText });
+                },
+                error => {
+                    M.toast({ html: "Error Occurred: " + error.message });
+                }).then(
+                    data => {
+                        let template = document.querySelector('#ix-card-template');
+                        let card = template.cloneNode(true);
+                        card.removeAttribute("id");
+                        card.classList.remove("hide");
+                        card.querySelector('img').setAttribute("src", data.image);
+                        data.attr=data.attr.map((value,index)=>{
+                            return Math.round(value*100);
+                        });
+                        card.querySelector("p").textContent = "Attributes: " + data.attr.join(", ") + "  Pr: " + Math.round(data.pr*100);
+                        card.querySelector("a").addEventListener("click", close_card);
+                        M.Materialbox.init(card.querySelector('img'));
+                        template.parentNode.insertBefore(card, template.parentNode.childNodes[0]);
+
+                    }
+                )
+
+        });
+    });
+
+
+</script>
 
 {% endblock %}
