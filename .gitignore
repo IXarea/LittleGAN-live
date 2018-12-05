@@ -1,9 +1,13 @@
+
 venv
 __pycache__
 .idea
 Thumbs.db
 .env
-data
-application/static/generate
-application/static/upload
+data/*
+!data/.gitkeep
+application/static/generate/*
+!application/static/generate/.gitkeep
+application/static/upload/*
+!application/static/upload/.gitkeep
 
