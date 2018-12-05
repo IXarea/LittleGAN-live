@@ -44,8 +44,6 @@ def norm_input(data):
             new_data['seed2'] = int(np.clip(data['seed2'], 0, 999999))
     else:
         new_data['seed2'] = None
-    print(data)
-    print(new_data)
     return new_data
 
 
