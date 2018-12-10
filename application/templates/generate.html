@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block main %}
-    <h1>Generate and Adjust</h1>
+    <h1>Generate</h1>
 
     <form>
         <div class="row">
@@ -12,19 +12,7 @@
                 </p>
             </div>
 
-            <div class="input-field col s6">
-                <p class="range-field">
-                    <label for="attr-1" class="tooltipped" data-position="right" data-tooltip="I am a tooltip">Wear Glasses</label>
-                    <input type="range" id="attr-1" min="0" max="100" value="0" step="1"/>
-                </p>
-            </div>
 
-            <div class="input-field col s6">
-                <p class="range-field">
-                    <label for="attr-2" class="tooltipped" data-position="right" data-tooltip="I am a tooltip">Is Male</label>
-                    <input type="range" id="attr-2" min="0" max="100" value="0" step="1"/>
-                </p>
-            </div>
             <div class="input-field col s6">
                 <p class="range-field">
                     <label for="attr-3" class="tooltipped" data-position="right" data-tooltip="I am a tooltip">With Beard</label>
@@ -49,6 +37,28 @@
                     <input type="range" id="attr-6" min="0" max="100" value="100" step="1"/>
                 </p>
             </div>
+            <div class="input-field col s3">
+                <div class="switch">
+                    <label>
+
+                        <input type="checkbox" id="attr-1">
+                        <span class="lever"></span>
+                        Wearing Glasses
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-field col s3">
+                <div class="switch">
+                    <label>
+                        Female
+                        <input type="checkbox" id="attr-2">
+                        <span class="lever"></span>
+                        Male
+                    </label>
+                </div>
+            </div>
+
 
             <div class="input-field col s6">
                 <input id="i-seed" type="number" max="999999" min="0" class="validate">
@@ -135,7 +145,14 @@
             send.rate = Number(document.querySelector("#i-rate").value);
 
             for (let i = 0; i < 7; i++) {
-                send.attr.push(Number(document.querySelector("#attr-" + String(i)).value))
+                let ele = document.querySelector("#attr-" + String(i));
+                if (ele.type == "checkbox") {
+
+                    send.attr.push(ele.checked ? 100 : 0);
+                } else {
+                    send.attr.push(Number(ele.value));
+                }
+
             }
 
             fetch("{{ url_for("api_generate") }}",

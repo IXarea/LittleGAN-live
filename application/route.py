@@ -1,6 +1,5 @@
 from flask import jsonify, request, render_template, url_for
 from . import app
-from .form import UploadForm
 from .helper import norm_input, model_generate, model_discriminate
 from os import path
 import hashlib
@@ -17,8 +16,8 @@ def discriminate():
     return render_template("discriminate.html", form=upload_form)
 
 
-@app.route("/generate_adjust")
-def generate_adjust():
+@app.route("/generate")
+def generate():
     return render_template("generate.html")
 
 
