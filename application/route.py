@@ -12,8 +12,7 @@ def index():
 
 @app.route("/discriminate")
 def discriminate():
-    upload_form = UploadForm()
-    return render_template("discriminate.html", form=upload_form)
+    return render_template("discriminate.html")
 
 
 @app.route("/generate")
