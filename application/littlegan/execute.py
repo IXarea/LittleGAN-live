@@ -28,7 +28,7 @@ adjuster = Adjuster(args, discriminator, generator)
 
 test_image = tf.random.uniform([1, args.image_dim, args.image_dim, args.image_channel], 0, 1)
 test_cond = tf.random.uniform([1, args.attr_dim], 0, 1)
-test_noise = tf.random_normal([1, args.noise_dim])
+test_noise = tf.random.normal([1, args.noise_dim])
 discriminator(test_image)
 generator([test_noise, test_cond])
 adjuster([test_image, test_cond])
