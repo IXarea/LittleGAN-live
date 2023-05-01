@@ -1,4 +1,4 @@
 tensorflow==1.15.*
 pillow
-flask==1.1.1
+flask==2.3.2
 python-dotenv
